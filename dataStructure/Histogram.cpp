@@ -1,52 +1,46 @@
 struct histogram{
 	int N;
-	vector< vector<int> > H; 
-	vector< string > table; 
+	vector< int > H; 
 	stack< pair<int, int> > st;
 	
-	histogram(vector<string> table){
-		this->N = table.size();
-		this->table = table;
-		this->H = vector< vector<int> >(N, vector<int>(N, 0));
+	histogram(vector< int > H){
+		this->N = H.size();
+		this->H = H;
 	}
 	
-	void preprocess(){
-		for(int i=0; i<N; i++){
-			H[i][N-1] = (table[i][N-1]=='1');
-			for(int j=N-2; j>=0; j--){
-				H[i][j] = (table[i][j]=='1')? H[i][j+1]+1 : 0;
-			}
+	void onlyForMatrix(vector< vector< string > > table, int row){
+		N = table[row].size();
+		H[N-1] = (table[row][N-1]=='1');
+		for(int j=N-2; j>=0; j--){
+			H[j] = (table[row][j]=='1')? H[j+1]+1 : 0;
 		}
 	}
 	
 	int solve(){
-		preprocess();
 		int res = 0;
-		for(int j=0; j<N; j++){
-			for(int i=0; i<N; i++){
-				if(H[i][j] == 0){
-					while(!st.empty()){
-						res = max(res, (i-st.top().second)*st.top().first);
-						st.pop();
-					}
-					continue;
+		for(int i=0; i<N; i++){
+			if(H[i] == 0){
+				while(!st.empty()){
+					res = max(res, (i-st.top().second)*st.top().first);
+					st.pop();
 				}
-				if(!st.empty() && st.top().first <= H[i][j]){
-					st.push(make_pair(H[i][j], i));
-				}else{
-					int p = i;
-					while(!st.empty() && st.top().first > H[i][j]){
-						p = st.top().second;
-						res = max(res, (i-st.top().second)*st.top().first);
-						st.pop();
-					}
-					st.push(make_pair(H[i][j], p));
+				continue;
+			}
+			if(!st.empty() && st.top().first <= H[i]){
+				st.push(make_pair(H[i], i));
+			}else{
+				int p = i;
+				while(!st.empty() && st.top().first > H[i]){
+					p = st.top().second;
+					res = max(res, (i-st.top().second)*st.top().first);
+					st.pop();
 				}
+				st.push(make_pair(H[i], p));
 			}
-			while(!st.empty()){
-				res = max(res, (N-st.top().second)*st.top().first);
-				st.pop();
-			}
+		}
+		while(!st.empty()){
+			res = max(res, (N-st.top().second)*st.top().first);
+			st.pop();
 		}
 		return res;
 	}
