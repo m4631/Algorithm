@@ -1,8 +1,10 @@
 struct normalize{
 	map<int, int> MP;
 	map<int, int> RE;
+	VI arr;
 	
 	normalize(VI V, int ini){
+		arr = V;
 		sort(V.begin(), V.end());
 		int k = ini;
 		for(int i=0; i<V.size(); i++){
@@ -12,6 +14,9 @@ struct normalize{
 				k++;
 			}
 		}
+		for(int i=0; i<arr.size(); i++){
+			arr[i] = MP[ arr[i] ];
+		}
 	}
 	
 	int getId(int num){
@@ -20,6 +25,10 @@ struct normalize{
 	
 	int getNum(int id){
 		return RE[id];
+	}
+	
+	VI getArray(){
+		return arr;
 	}
 	
 };
