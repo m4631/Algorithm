@@ -140,7 +140,7 @@ int main(){
 	while(cin >> nk >> np && nk!=0 && np!=0){
 		MaxFlowDinic D(nk+np+5);
 		VI aux;
-		int R;
+		int R = 0;
 		for(int i=0; i<nk; i++){
 			int c;
 			cin >> c;
@@ -167,7 +167,7 @@ int main(){
 		for(int i=0; i<D.edges.size(); i+=2){
 			if(D.edges[i].u == 0 || D.edges[i].v == nk+np+1) continue;
 			if(D.edges[i].flow <= 0) continue;
-			if(D.edges[i].v < nk) continue;
+			if(D.edges[i].v <= nk) continue;
 			res[ D.edges[i].v-1-nk ] = D.edges[i].u;
 		}
 		for(int i=1; i<=nk; i++){
