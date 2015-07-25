@@ -147,6 +147,7 @@ int main() {
 			cin >> id >> c;
 			id--;
 			MD.add_edge(id, m+id, c);
+			MD.add_edge(m+id, id, c);
 		}
 		for(int i=0; i<w; i++){
 			int j, k, c;
@@ -156,6 +157,7 @@ int main() {
 				j = m + j;
 			}
 			MD.add_edge(j, k, c);
+			MD.add_edge(k, j, c);
 		}
 		cout << MD.dinic(0, m-1) << endl;
 	}
