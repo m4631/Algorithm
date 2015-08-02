@@ -17,31 +17,22 @@ struct histogram{
 	}
 	
 	int solve(){
-		int res = 0;
-		for(int i=0; i<N; i++){
-			if(H[i] == 0){
-				while(!st.empty()){
-					res = max(res, (i-st.top().second)*st.top().first);
-					st.pop();
-				}
-				continue;
+		stack< pair<int, int> > S;
+		int r = 0;
+		for(int i=0; i<H.size(); i++){
+			int l = i;
+			while(!S.empty() && H[i] < S.top().first){
+				l = S.top().second;
+				r = max(r, (i-S.top().second)*S.top().first);
+				S.pop();
 			}
-			if(!st.empty() && st.top().first <= H[i]){
-				st.push(make_pair(H[i], i));
-			}else{
-				int p = i;
-				while(!st.empty() && st.top().first > H[i]){
-					p = st.top().second;
-					res = max(res, (i-st.top().second)*st.top().first);
-					st.pop();
-				}
-				st.push(make_pair(H[i], p));
-			}
+			S.push(make_pair(H[i], l));
 		}
-		while(!st.empty()){
-			res = max(res, (N-st.top().second)*st.top().first);
-			st.pop();
+		while(!S.empty()){
+			int l = H.size();
+			r = max(r, (l-S.top().second)*S.top().first);
+			S.pop();
 		}
-		return res;
+		return r;
 	}
 };
