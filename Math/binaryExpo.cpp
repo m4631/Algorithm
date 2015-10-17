@@ -1,4 +1,4 @@
-int sqrtDesc(int b, int e){
+int binaryExpo(int b, int e){
 	if(e == 0){
 		return 1;
 	}
