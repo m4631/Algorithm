@@ -6,8 +6,8 @@ int binaryExpo(int b, int e){
 		return b % MOD;
 	}
 	if(e%2 == 0){
-		return sqrtDesc((b*b)%MOD, e/2);
+		return binaryExpo((b*b)%MOD, e/2);
 	}else{
-		return (sqrtDesc((b*b)%MOD, e/2)*b)%MOD;
+		return (binaryExpo((b*b)%MOD, e/2)*b)%MOD;
 	}
 }
